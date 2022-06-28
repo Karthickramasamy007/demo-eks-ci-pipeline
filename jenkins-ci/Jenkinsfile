@@ -1,0 +1,83 @@
+//Hi Karthick. This is working code.
+//Add some more functions like when, parallel, etc. Reffere documentation.
+
+pipeline {   
+  agent any
+  
+  triggers {
+    pollSCM('*/5 * * * 1-5')
+}
+  options {
+    skipDefaultCheckout(true)
+    // Keep the 10 most recent builds.
+    buildDiscarder(logRotator(numToKeepStr: '5'))
+    timestamps()
+}
+  environment {
+    PATH="/var/lib/jenkins/miniconda3/bin:$PATH"
+    registry = "Karthickramasamy007/PROJECTS"
+    registryCredentials = "docker_credentials"
+    dockerImage = ""
+    DOCKERHUB_CREDENTIALS= credentials('dockerhubcredentials')     
+    
+}
+
+ 
+  stages {         
+    stage("Git Checkout"){           
+      steps{                
+	   
+	      //git credentialsId: 'github', url: 'https://github.com/Karthickramasamy007/demo-cicd-project.git'
+	      //git branch: 'main', credentialsId: '6796b853-a79b-4dec-a51f-54f163c958ba', url: 'https://github.com/Karthickramasamy007/demo-cicd-project.git'
+	      git branch: 'karthick-feature-cicd', url: 'https://github.com/Karthickramasamy007/demo-cicd-project.git'
+	      echo 'Git Checkout CompletedDDDDDDDDDDDDDDDDDDDDDDDDDD'
+	      sh 'ls'
+	      sh 'pwd'
+	   
+      }        
+    }
+
+    stage('Build Docker Image') {         
+      steps{                
+	      echo 'BUILDING DOCKERRRRRRRRRRRRRRR'
+	      sh 'ls'
+	      sh 'pwd'
+	      //sh 'sudo usermod -a -G docker jenkins'
+	      //sh 'sudo docker run hello-world'
+	      sh 'docker build --no-cache -t mydockeraccfortest/demo_app:$BUILD_NUMBER .'           
+              echo 'Build Image Completed' 
+	      //sh 'rm -rfv /var/lib/jenkins/workspace/test'
+	     // sh 'ls'
+      }           
+    }
+    stage('Login to Docker Hub') {         
+      steps{                            
+	      sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'                 
+	      echo 'Login Completed'                
+      }           
+    }               
+    stage('Push Image to Docker Hub') {         
+      steps{  
+	      echo 'DOCKER LISTTTTTTTTTTTTTTTTTTTTTT'
+	      sh 'docker images'
+	      sh 'docker push mydockeraccfortest/demo_app:$BUILD_NUMBER'                 
+              echo 'Push Image Completed'       
+      }           
+    }      
+    stage('Trigger ManifestUpdate') {  //This updates K8's manifies file's docker image with new version ID and that triggers Argo CD.
+      steps{
+              echo "triggering updatemanifestjob"
+              build job: 'Demo_Update_Manifiest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
+      }
+            
+    }      
+  } //stages 
+  post{
+    always {
+      	sh 'docker logout'           
+    }
+    failure {
+        echo "Send e-mail, when failed"
+    }      
+  } 
+}
