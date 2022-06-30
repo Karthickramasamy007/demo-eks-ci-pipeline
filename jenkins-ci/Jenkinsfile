@@ -67,7 +67,7 @@ pipeline {
     stage('Trigger ManifestUpdate') {  //This updates K8's manifies file's docker image with new version ID and that triggers Argo CD.
       steps{
               echo "triggering updatemanifestjob"
-              build job: 'Demo_Update_Manifiest', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
+              build job: 'demo-eks-cd-pipeline', parameters: [string(name: 'DOCKERTAG', value: env.BUILD_NUMBER)]
       }
             
     }      
