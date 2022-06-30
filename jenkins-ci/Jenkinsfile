@@ -44,7 +44,7 @@ pipeline {
 	      sh 'pwd'
 	      //sh 'sudo usermod -a -G docker jenkins'
 	      //sh 'sudo docker run hello-world'
-	      sh 'docker build --no-cache -t mydockeraccfortest/demo_app:$BUILD_NUMBER .'           
+	      sh 'docker build --no-cache -t mydockeraccfortest/demo_app:$BUILD_NUMBER app/.'           
               echo 'Build Image Completed' 
 	      //sh 'rm -rfv /var/lib/jenkins/workspace/test'
 	     // sh 'ls'
