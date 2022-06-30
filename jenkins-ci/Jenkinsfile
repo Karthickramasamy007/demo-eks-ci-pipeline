@@ -29,7 +29,7 @@ pipeline {
 	   
 	      //git credentialsId: 'github', url: 'https://github.com/Karthickramasamy007/demo-cicd-project.git'
 	      //git branch: 'main', credentialsId: '6796b853-a79b-4dec-a51f-54f163c958ba', url: 'https://github.com/Karthickramasamy007/demo-cicd-project.git'
-	      git branch: 'karthick-feature-cicd', url: 'https://github.com/Karthickramasamy007/demo-cicd-project.git'
+	      git branch: 'karthick-feature-cicd', url: 'https://github.com/Karthickramasamy007/demo-eks-ci-pipeline'
 	      echo 'Git Checkout CompletedDDDDDDDDDDDDDDDDDDDDDDDDDD'
 	      sh 'ls'
 	      sh 'pwd'
