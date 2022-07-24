@@ -9,7 +9,7 @@ pipeline {
 }
   options {
     skipDefaultCheckout(true)
-    // Keep the 10 most recent builds.
+    // Keep only 5 most recent builds.
     buildDiscarder(logRotator(numToKeepStr: '5'))
     timestamps()
 }
@@ -30,7 +30,7 @@ pipeline {
 	      //git credentialsId: 'github', url: 'https://github.com/Karthickramasamy007/demo-cicd-project.git'
 	      //git branch: 'main', credentialsId: '6796b853-a79b-4dec-a51f-54f163c958ba', url: 'https://github.com/Karthickramasamy007/demo-cicd-project.git'
 	      git branch: 'main', url: 'https://github.com/Karthickramasamy007/demo-eks-ci-pipeline'
-	      echo 'Git Checkout CompletedDDDDDDDDDDDDDDDDDDDDDDDDDD'
+	      echo 'Git Checkout Completed'
 	      sh 'ls'
 	      sh 'pwd'
 	   
@@ -39,7 +39,7 @@ pipeline {
 
     stage('Build Docker Image') {         
       steps{                
-	      echo 'BUILDING DOCKERRRRRRRRRRRRRRR'
+	      echo 'Building Docker Image'
 	      sh 'ls'
 	      sh 'pwd'
 	      //sh 'sudo usermod -a -G docker jenkins'
