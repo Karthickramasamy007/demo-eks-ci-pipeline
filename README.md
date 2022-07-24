@@ -4,8 +4,9 @@ This repo is a companion repo to the [Provision an EKS Cluster learn guide](http
 Terraform configuration files to provision an EKS cluster on AWS.
 
 
-
-TEMP:
-
-1. 3 instances running in 3 differendt AZ's
-2. Jenkis token f4G6SLJYBkGm6n9mOkPyJb   b2b5074a5ff04830bfe08cfd5a4f9901
+# To Push the changes to Git
+1. simply go into project folder, demo-eks-ci-pipeline
+2. pull for latest
+3. add files
+4. commit
+5. push
